@@ -110,20 +110,18 @@ int main() {
     while(1){
         value1=(int) (pot1.read()*2*nPos-nPos);
         value2=(double) (pot2.read()*2-1);
-        pc.printf("Value1: %d", value1);
-        pc.printf( "   Value 2: %d \n", value2);
         steps=value1-value1Old;
 
-        if(steps==0 || (abs(steps)<2 && abs(value1)>=19)){ //|| (abs(value1)<8 && value1Old == 0)){
-            stopChair();
-        }
-        if(fabs(value2) > 0.1){
+        if(fabs(value2) > 0.2){
             chair.writeMotor1(value2);
             wait_ms(50);
             chair.writeMotor2(value2);
             wait_ms(50);
 
 
+        }
+        else if(steps==0 || (abs(steps)<2 && abs(value1)>=19)){ //|| (abs(value1)<8 && value1Old == 0)){
+            stopChair();
         }
         else {
             speed = moveChair(steps, speed, 70); //150, 200
@@ -135,11 +133,12 @@ int main() {
           countingSteps += steps;
 
 
-        // pc.printf("VALUE: %.2f    ",value1);
+        pc.printf("VALUE 1: %d    ",value1);
+        pc.printf("VALUE 2: %f    \n",value1);
         // pc.printf("STEPS: %d      ",steps);
         // pc.printf("COUNTING STEPS: %d       ",countingSteps);
         // pc.printf("SPEED: %.2f  \n",speed);
-          wait_ms(50);
+        wait_ms(50);
     }
 
 ////// END
