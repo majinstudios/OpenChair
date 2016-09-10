@@ -7,8 +7,8 @@ motor1(pinMot1Tx,pinMot1Rx),motor2(pinMot2Tx,pinMot2Rx), pc(SERIAL_TX, SERIAL_RX
     maxSpeed=Ms;
     minSpeed=ms;
     if(maxSpeed>512) maxSpeed=512;
-    motor1.baud(26315);
-    motor2.baud(26315);
+    motor1.baud(26300);
+    motor2.baud(26300);
     pc.baud(115200);
 }
 
