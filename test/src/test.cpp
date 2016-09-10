@@ -10,15 +10,15 @@ Serial pc(SERIAL_TX, SERIAL_RX);//PA_2,PA_3
 OpenChair chair(PC_12,PD_2,PC_10,PC_11,30,500);
 
 ////// START
-double moveChair (int steps, double speed=0, int wait_time = 400, int on_off=0){
+double moveChair (int steps, double speed=0, int wait_time = 400){
   double motSpeed=0.1;
   int t= 20;
   if( steps>0){
     // if (steps < 8) steps = 8;
       for(int i=0; i<steps; i++){
-          chair.writeMotor1(motSpeed, on_off);
+          chair.writeMotor1(motSpeed);
           wait_ms(t);
-          chair.writeMotor2(-motSpeed, on_off);
+          chair.writeMotor2(-motSpeed);
           wait_ms(t);
           wait_ms(wait_time);
 
@@ -29,9 +29,9 @@ double moveChair (int steps, double speed=0, int wait_time = 400, int on_off=0){
   if(steps<0){
     // if (steps > -8) steps = -8;
       for(int i=steps; i<0; i++){
-          chair.writeMotor1(-motSpeed, on_off);
+          chair.writeMotor1(-motSpeed);
           wait_ms(t);
-          chair.writeMotor2(motSpeed, on_off);
+          chair.writeMotor2(motSpeed);
           wait_ms(t);
           wait_ms(wait_time);
 
@@ -70,71 +70,80 @@ int main() {
 
 
 ////// Working:
-
-stopChair(0,2000);
-pc.printf("moveChair 5-1");
-moveChair(5, speed, 70, 1);
-stopChair(1, 2000);
-
-pc.printf("moveChair 5-2");
-moveChair(5, speed, 70, 1);
-stopChair(1, 2000);
-
-pc.printf("moveChair 5-3");
-moveChair(5, speed, 70, 1);
-stopChair(1, 2000);
-
-pc.printf("moveChair 5-4");
-moveChair(5, speed, 70, 1);
-stopChair(1, 2000);
-
-pc.printf("moveChair 5-5");
-moveChair(5, speed, 70, 1);
-stopChair(1, 2000);
-
-  pc.printf("stopChair");
-  while(1){
-    stopChair(0, 200); //stop completely the chair
-    wait_ms(10);
-  }
+//
+// stopChair(0,2000);
+// pc.printf("moveChair 5-1");
+// moveChair(5, speed, 70);
+// stopChair(1, 2000);
+//
+// pc.printf("moveChair 5-2");
+// moveChair(5, speed, 70);
+// stopChair(1, 2000);
+//
+// pc.printf("moveChair 5-3");
+// moveChair(5, speed, 70);
+// stopChair(1, 2000);
+//
+// pc.printf("moveChair 5-4");
+// moveChair(5, speed, 70);
+// stopChair(1, 2000);
+//
+// pc.printf("moveChair 5-5");
+// moveChair(5, speed, 70);
+// stopChair(1, 2000);
+//
+//   pc.printf("stopChair");
+//   while(1){
+//     stopChair(0, 200); //stop completely the chair
+//     wait_ms(10);
+//   }
 
 ////////
 
 ////// START
-    // while(1){
-    //     value1=(int) (pot1.read()*2*nPos-nPos);
-    //     value2=(double) (pot2.read()*2-1);
-    //     steps=value1-value1Old;
-    //
-    //     if(fabs(value2) > 0.2){
-    //         chair.writeMotor1(value2);
-    //         wait_ms(50);
-    //         chair.writeMotor2(value2);
-    //         wait_ms(50);
-    //
-    //
-    //     }
-    //     else if(steps==0){ //|| (abs(value1)<8 && value1Old == 0)){
-    //         stopChair(1);
-    //     }
-    //     else if()
-    //     else{
-    //         speed = moveChair(steps, speed, 70); //150, 200
-    //         // pc.printf("default!      ");
-    //     }
-    //
-    //       value1Old = value1;
-    //       stepsOld = steps;
-    //       countingSteps += steps;
-    //
-    //
-    //     pc.printf("VALUE 1: %d    ",value1);
-    //     pc.printf("VALUE 2: %f    \n",value2);
-    //     // pc.printf("STEPS: %d      ",steps);
-    //     // pc.printf("COUNTING STEPS: %d       ",countingSteps);
-    //     // pc.printf("SPEED: %.2f  \n",speed);
-    //     wait_ms(50);
-    // }
+    while(1){
+        value1=(int) (pot1.read()*2*nPos-nPos);
+        value2=(double) (pot2.read()*2-1);
+        steps=value1-value1Old;
+
+// OpenChair::drive(double steering, double throttle,int mode)
+        // chair.drive(value1, value2);
+
+        if(fabs(value2) > 0.2){
+            chair.writeMotor1(value2);
+            wait_ms(20);
+            chair.writeMotor2(value2);
+            wait_ms(20);
+            pc.printf("rotate\n");
+
+        }
+        else if(steps==0){ //|| (abs(value1)<8 && value1Old == 0)){
+            pc.printf("continue\n");
+
+            stopChair(1,100);
+        }
+        else if(value1 ==0){
+            pc.printf("stop chair completely\n");
+
+            stopChair(0,200);
+
+        }
+        else{
+            pc.printf("moving default\n");
+            speed = moveChair(steps, speed, 70); //150, 200
+        }
+
+          value1Old = value1;
+          stepsOld = steps;
+          countingSteps += steps;
+
+        pc.printf("VALUE 1: %d    ",value1);
+        pc.printf("VALUE 2: %f    ",value2);
+        pc.printf("STEPS: %d      \n",steps);
+        // pc.printf("COUNTING STEPS: %d       ",countingSteps);
+        // pc.printf("SPEED: %.2f  \n",speed);
+        // wait_ms(50);
+    }
 
 ////// END
 
