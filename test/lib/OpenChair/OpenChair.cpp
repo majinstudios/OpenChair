@@ -9,7 +9,7 @@ motor1(pinMot1Tx,pinMot1Rx),motor2(pinMot2Tx,pinMot2Rx), pc(SERIAL_TX, SERIAL_RX
     if(maxSpeed>512) maxSpeed=512;
     motor1.baud(26300);
     motor2.baud(26300);
-    pc.baud(115200);
+    // pc.baud(115200);
 }
 
 
@@ -35,30 +35,23 @@ void OpenChair::drive(double steering, double throttle,int mode){
     motA=constrain(motATS+motAS, -1, 1);
     motB=constrain(motBTS+motBS, -1, 1);
 
+    // writeMotor1(motA);
+    // writeMotor2(motB);
 
-    static int turn=0;
-    if( (motA>=0&&motB>=0) || (motA<=0&&motB<=0) ){ //turning
-        writeMotor1(motA);
-        writeMotor2(motB);
-    }
-    else{
-        // writeMotor1(motA);
-        // writeMotor2(motB);
-        // writeMotor1(-motA*0.75);
-        // writeMotor2(-motB*0.75);
-        if(turn==0){
-            writeMotor1(motA);
-            writeMotor2(motB);
-            turn=1;
-        }
-        else if(turn==1){
-            writeMotor1(-motA*0.9);
-            writeMotor2(-motB*0.9);
-            turn=0;
-        }
-    }
+    // double stepsA=motA/5;
+    // double stepsB=motB/5;
+    // for(int i=0;i<5;i++){
+    //   writeMotor1(stepsA*i+1);
+    //   writeMotor2(-stepsB*i+1);
+    //   wait_ms(20);
+    //   pc.printf("Section: Motor A, B: %.02f    %.02f\n",stepsA*i+1,stepsB*i+1);
+    //
+    // }
 
-    // pc.printf("%.02f    %.02f\n",motA,motB);
+
+
+
+    pc.printf("Motor A, B: %.02f    %.02f\n",motA,motB);
 }
 
 
