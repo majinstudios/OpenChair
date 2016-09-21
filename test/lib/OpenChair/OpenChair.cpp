@@ -27,7 +27,8 @@ void OpenChair::drive(double steering, double throttle,int mode){
     if(mode==1){
         motAS=+steering*(1-fabs(throttle));
         motBS=-steering*(1-fabs(throttle));
-    }else if(mode==0){
+    }
+    else if(mode==0){
         motAS=0;
         motBS=0;
     }
@@ -35,21 +36,8 @@ void OpenChair::drive(double steering, double throttle,int mode){
     motA=constrain(motATS+motAS, -1, 1);
     motB=constrain(motBTS+motBS, -1, 1);
 
-    // writeMotor1(motA);
-    // writeMotor2(motB);
-
-    // double stepsA=motA/5;
-    // double stepsB=motB/5;
-    // for(int i=0;i<5;i++){
-    //   writeMotor1(stepsA*i+1);
-    //   writeMotor2(-stepsB*i+1);
-    //   wait_ms(20);
-    //   pc.printf("Section: Motor A, B: %.02f    %.02f\n",stepsA*i+1,stepsB*i+1);
-    //
-    // }
-
-
-
+    writeMotor1(-motA);
+    writeMotor2(motB);
 
     pc.printf("Motor A, B: %.02f    %.02f\n",motA,motB);
 }
